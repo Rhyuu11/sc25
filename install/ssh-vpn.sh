@@ -26,7 +26,7 @@ commonname=none
 email=none
 
 # simple password minimal
-curl -sS https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/password | openssl aes-256-cbc -d -a -pass pass:scvps07gg -pbkdf2 > /etc/pam.d/common-password
+curl -sS https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/password | openssl aes-256-cbc -d -a -pass pass:scvps07gg -pbkdf2 > /etc/pam.d/common-password
 chmod +x /etc/pam.d/common-password
 
 # go to root
@@ -47,6 +47,7 @@ SysVStartPriority=99
 [Install]
 WantedBy=multi-user.target
 END
+
 
 # nano /etc/rc.local
 cat > /etc/rc.local <<-END
@@ -74,26 +75,21 @@ apt dist-upgrade -y
 apt-get remove --purge ufw firewalld -y
 apt-get remove --purge exim4 -y
 
-#install jq
-apt -y install jq
-
-#install shc
-apt -y install shc
-
 # install wget and curl
 apt -y install wget curl
+apt -y install python
 
-#figlet
-apt-get install figlet -y
-apt-get install ruby -y
+# install python
+cd
+apt -y install ruby
 gem install lolcat
+apt -y install figlet
 
 # set time GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 
-# set locale
-sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 
+# install
 # // install
 apt-get --reinstall --fix-missing install -y bzip2 gzip coreutils wget screen rsyslog iftop htop net-tools zip unzip wget net-tools curl nano sed screen gnupg gnupg1 bc apt-transport-https build-essential dirmngr libxml-parser-perl neofetch git lsof
 echo "clear" >> .profile
@@ -147,16 +143,16 @@ echo "<?php phpinfo() ?>" > /home/vps/public_html/info.php
 chown -R www-data:www-data /home/vps/public_html
 chmod -R g+rw /home/vps/public_html
 cd /home/vps/public_html
-wget -O /home/vps/public_html/index.html "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/index.html1"
+wget -O /home/vps/public_html/index.html "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/index.html1"
 /etc/init.d/nginx restart
 
 # install badvpn
 cd
-wget -O /usr/sbin/badvpn "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/badvpn" >/dev/null 2>&1
+wget -O /usr/sbin/badvpn "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/badvpn" >/dev/null 2>&1
 chmod +x /usr/sbin/badvpn > /dev/null 2>&1
-wget -q -O /etc/systemd/system/badvpn1.service "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/badvpn1.service" >/dev/null 2>&1
-wget -q -O /etc/systemd/system/badvpn2.service "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/badvpn2.service" >/dev/null 2>&1
-wget -q -O /etc/systemd/system/badvpn3.service "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/badvpn3.service" >/dev/null 2>&1
+wget -q -O /etc/systemd/system/badvpn1.service "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/badvpn1.service" >/dev/null 2>&1
+wget -q -O /etc/systemd/system/badvpn2.service "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/badvpn2.service" >/dev/null 2>&1
+wget -q -O /etc/systemd/system/badvpn3.service "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/badvpn3.service" >/dev/null 2>&1
 systemctl disable badvpn1 
 systemctl stop badvpn1 
 systemctl enable badvpn1
@@ -198,14 +194,14 @@ apt -y install squid3
 
 # install squid for debian 11
 apt -y install squid
-wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/squid3.conf"
+wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/squid3.conf"
 sed -i $MYIP2 /etc/squid/squid.conf
 
 # setting vnstat
 apt -y install vnstat
 /etc/init.d/vnstat restart
 apt -y install libsqlite3-dev
-wget https://humdi.net/vnstat/vnstat-2.6.tar.gz
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/vnstat-2.6.tar.gz
 tar zxvf vnstat-2.6.tar.gz
 cd vnstat-2.6
 ./configure --prefix=/usr --sysconfdir=/etc && make && make install
@@ -218,27 +214,36 @@ systemctl enable vnstat
 rm -f /root/vnstat-2.6.tar.gz
 rm -rf /root/vnstat-2.6
 
-cd
 # install stunnel
 apt install stunnel4 -y
+#certi stunnel
+#wget -O /etc/stunnel/hidessh.pem https://gitlab.com/hidessh/baru/-/raw/main/certi/stunel && chmod +x /etc/stunnel/hidessh.pem
+#installer SSL Cloudflare 
+cd
+
+wget https://raw.githubusercontent.com/hidessh99/projectku/main/SSL/hidesvr.crt
+wget https://raw.githubusercontent.com/hidessh99/projectku/main/SSL/hidesvr.key
+#buat directory
+mkdir /etc/hidessh
+chmod +x /etc/hidessh
+
+cat hidesvr.key hidesvr.crt >> /etc/hidessh/stunnel.pem
+
+#konfigurasi stunnel4
 cat > /etc/stunnel/stunnel.conf <<-END
-cert = /etc/stunnel/stunnel.pem
+cert = /etc/hidessh/stunnel.pem
 client = no
 socket = a:SO_REUSEADDR=1
 socket = l:TCP_NODELAY=1
 socket = r:TCP_NODELAY=1
 
 [dropbear]
-accept = 8880
+accept = 777
 connect = 127.0.0.1:22
 
 [dropbear]
-accept = 8443
+accept = 447
 connect = 127.0.0.1:109
-
-[ws-stunnel]
-accept = 444
-connect = 700
 
 [openvpn]
 accept = 990
@@ -256,19 +261,11 @@ cat key.pem cert.pem >> /etc/stunnel/stunnel.pem
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 /etc/init.d/stunnel4 restart
 
-cd
-#install sslh
-apt-get install sslh -y
-#konfigurasi
-#port 333 to 44 and 777
-wget -O /etc/default/sslh "https://gitlab.com/hidessh/baru/-/raw/main/SSLH/sslh.conf"
-service sslh restart
-
 #OpenVPN
-wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/vpn.sh &&  chmod +x vpn.sh && ./vpn.sh
+wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/vpn.sh &&  chmod +x vpn.sh && ./vpn.sh
 
 # // install lolcat
-wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/lolcat.sh &&  chmod +x lolcat.sh && ./lolcat.sh
+wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/lolcat.sh &&  chmod +x lolcat.sh && ./lolcat.sh
 
 # memory swap 1gb
 cd
@@ -314,10 +311,10 @@ echo "Banner /etc/issue.net" >>/etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/issue.net"@g' /etc/default/dropbear
 
 # Ganti Banner
-wget -O /etc/issue.net "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/issue.net"
+wget -O /etc/issue.net "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/issue.net"
 
 #install bbr dan optimasi kernel
-wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/bbr.sh && chmod +x bbr.sh && ./bbr.sh
+wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/bbr.sh && chmod +x bbr.sh && ./bbr.sh
 
 # blokir torrent
 iptables -A FORWARD -m string --string "get_peers" --algo bm -j DROP
@@ -341,10 +338,10 @@ netfilter-persistent reload
 
 # download script
 cd /usr/bin
-wget -O issue "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/issue.net"
-wget -O m-theme "https://raw.githubusercontent.com/Rhyuu11/newsc/main/menu/m-theme.sh"
-wget -O speedtest "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/speedtest_cli.py"
-wget -O xp "https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/xp.sh"
+wget -O issue "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/issue.net"
+wget -O m-theme "https://raw.githubusercontent.com/Rhyuu11/sc25/main/menu/m-theme.sh"
+wget -O speedtest "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/speedtest_cli.py"
+wget -O xp "https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/xp.sh"
 
 chmod +x issue
 chmod +x m-theme

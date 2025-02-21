@@ -63,261 +63,13 @@ author=$(cat /etc/profil)
 echo ""
 echo ""
 
-function key2(){
-clear
-echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e "${BIBlue}│ ${BGCOLOR} Please select a your Choice            ${BIBlue} │${NC}"
-echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
-echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e "${BIBlue}│  [ 1 ]  \033[1;37mTRIAL 1 HARI      ${NC}"
-echo -e "${BIBlue}│  [ 2 ]  \033[1;37mMEMBER SUDAH BELI     ${NC}"
-echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
-until [[ $key =~ ^[12]+$ ]]; do 
-read -p "   Please select numbers 1 atau 2 : " key
-done
-if [[ $key == "1" ]]; then
-MYIP=$(curl -sS ipv4.icanhazip.com)
-rm -rf /etc/github
-mkdir /etc/github
-curl -s https://pastebin.com/raw/t3aaqcej > /etc/github/api
-curl -s https://pastebin.com/raw/cfivDKk2 > /etc/github/email
-curl -s https://pastebin.com/raw/bSskAgjw > /etc/github/username
-clear
-APIGIT=$(cat /etc/github/api)
-EMAILGIT=$(cat /etc/github/email)
-USERGIT=$(cat /etc/github/username)
-hhari=$(date -d "1 days" +"%Y-%m-%d")
-mkdir /root/casper
-cd /root/casper
-wget https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip >/dev/null 2>&1
-echo "### $author $hhari $MYIP @trial" >> ipmini
-sleep 1
-rm -rf .git
-git config --global user.email "${EMAILGIT}" >/dev/null 2>&1
-git config --global user.name "${USERGIT}" >/dev/null 2>&1
-git init >/dev/null 2>&1
-git add ipmini 
-git commit -m register >/dev/null 2>&1
-git branch -M main >/dev/null 2>&1
-git remote add origin https://github.com/${USERGIT}/permission >/dev/null 2>&1
-git push -f https://${APIGIT}@github.com/${USERGIT}/permission >/dev/null 2>&1
-sleep 1
-rm -rf /root/rmbl
-rm -rf /etc/github
-clear
-fi
-if [[ $key == "2" ]]; then
-clear
-echo -e  "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e  "${BIBlue}│              MASUKKAN LICENSE KEY        │${NC}"
-echo -e  "${BIBlue}╰══════════════════════════════════════════╯${NC}"
-echo " "
-read -rp "Masukan Key Kamu Disini (Ctrl + C Exit) : " -e kode
 
-if [ -z $kode ]; then
-echo -e "KODE SALAH SILAHKAN MASUKKAN ULANG KODENYA"
-key2
-fi
-LIST=$(curl -sS https://raw.githubusercontent.com/RMBL-VPN/license/main/key | grep $kode | awk '{print $2}')
-Key=$(curl -sS https://raw.githubusercontent.com/RMBL-VPN/license/main/key | grep $kode | awk '{print $3}')
-KEY2=$(curl -sS https://raw.githubusercontent.com/RMBL-VPN/license/main/key | grep $kode | awk '{print $4}')
-ADMIN=$(curl -sS https://raw.githubusercontent.com/RMBL-VPN/license/main/key | grep $kode | awk '{print $5}')
-TOTALIP=$(curl -sS https://raw.githubusercontent.com/RMBL-VPN/license/main/key | grep $kode | awk '{print $6}')
-cd
-if [[ $kode == "RMBLVIP" ]]; then
-MYIP=$(curl -sS ipv4.icanhazip.com)
-rm -rf /etc/github
-mkdir /etc/github
-curl -s https://pastebin.com/raw/t3aaqcej > /etc/github/api
-curl -s https://pastebin.com/raw/cfivDKk2 > /etc/github/email
-curl -s https://pastebin.com/raw/bSskAgjw > /etc/github/username
-clear
-APIGIT=$(cat /etc/github/api)
-EMAILGIT=$(cat /etc/github/email)
-USERGIT=$(cat /etc/github/username)
-hhari=$(date -d "30 days" +"%Y-%m-%d")
-mkdir /root/rmbl
-cd /root/rmbl
-wget https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip >/dev/null 2>&1
-
-echo "### $author $hhari $MYIP @RMBL" >> ipmini
-
-sleep 0.5
-rm -rf .git
-git config --global user.email "${EMAILGIT}" >/dev/null 2>&1
-git config --global user.name "${USERGIT}" >/dev/null 2>&1
-git init >/dev/null 2>&1
-git add ipmini 
-git commit -m register >/dev/null 2>&1
-git branch -M main >/dev/null 2>&1
-git remote add origin https://github.com/${USERGIT}/permission >/dev/null 2>&1
-git push -f https://${APIGIT}@github.com/${USERGIT}/permission >/dev/null 2>&1
-sleep 0.5
-rm ipmini
-elif [[ $kode == "RMBLVVIP" ]]; then
-MYIP2=$(curl -sS ipv4.icanhazip.com)
-author2=$(cat /etc/profil)
-rm -rf /etc/github
-mkdir /etc/github
-curl -s https://pastebin.com/raw/t3aaqcej > /etc/github/api
-curl -s https://pastebin.com/raw/cfivDKk2 > /etc/github/email
-curl -s https://pastebin.com/raw/bSskAgjw > /etc/github/username
-clear
-APIGIT=$(cat /etc/github/api)
-EMAILGIT=$(cat /etc/github/email)
-USERGIT=$(cat /etc/github/username)
-hhari2=$(date -d "999 days" +"%Y-%m-%d")
-mkdir /root/rmbl
-cd /root/rmbl
-wget https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip >/dev/null 2>&1
-
-sed -i "/# VIP/a ### ${author2} ${hhari2} ${MYIP2} ON 999 VIP" /root/rmbl/ipmini
-
-sleep 0.5
-rm -rf .git
-git config --global user.email "${EMAILGIT}" >/dev/null 2>&1
-git config --global user.name "${USERGIT}" >/dev/null 2>&1
-git init >/dev/null 2>&1
-git add ipmini 
-git commit -m register >/dev/null 2>&1
-git branch -M main >/dev/null 2>&1
-git remote add origin https://github.com/${USERGIT}/permission >/dev/null 2>&1
-git push -f https://${APIGIT}@github.com/${USERGIT}/permission >/dev/null 2>&1
-sleep 0.5
-rm ipmini
-elif [[ $kode == "SFADMIN" ]]; then
-MYIP3=$(curl -sS ipv4.icanhazip.com)
-author3=$(cat /etc/profil)
-rm -rf /etc/github
-mkdir /etc/github
-curl -s https://pastebin.com/raw/t3aaqcej > /etc/github/api
-curl -s https://pastebin.com/raw/cfivDKk2 > /etc/github/email
-curl -s https://pastebin.com/raw/bSskAgjw > /etc/github/username
-clear
-APIGIT=$(cat /etc/github/api)
-EMAILGIT=$(cat /etc/github/email)
-USERGIT=$(cat /etc/github/username)
-hhari3=$(date -d "999 days" +"%Y-%m-%d")
-mkdir /root/rmbl
-cd /root/rmbl
-wget https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip >/dev/null 2>&1
-
-sed -i "/# RESELLER/a ### ${author3} ${hhari3} ${MYIP3} ON 999" /root/rmbl/ipmini
-
-sleep 0.5
-rm -rf .git
-git config --global user.email "${EMAILGIT}" >/dev/null 2>&1
-git config --global user.name "${USERGIT}" >/dev/null 2>&1
-git init >/dev/null 2>&1
-git add ipmini 
-git commit -m register >/dev/null 2>&1
-git branch -M main >/dev/null 2>&1
-git remote add origin https://github.com/${USERGIT}/permission >/dev/null 2>&1
-git push -f https://${APIGIT}@github.com/${USERGIT}/permission >/dev/null 2>&1
-sleep 0.5
-rm ipmini
-elif [[ $kode == $Key ]]; then
-MYIP=$(curl -sS ipv4.icanhazip.com)
-rm -rf /etc/github
-mkdir /etc/github
-curl -s https://pastebin.com/raw/t3aaqcej > /etc/github/api
-curl -s https://pastebin.com/raw/cfivDKk2 > /etc/github/email
-curl -s https://pastebin.com/raw/bSskAgjw > /etc/github/username
-clear
-APIGIT=$(cat /etc/github/api)
-EMAILGIT=$(cat /etc/github/email)
-USERGIT=$(cat /etc/github/username)
-hhari=$(date -d "$KEY2 days" +"%Y-%m-%d")
-mkdir /root/rmbl
-cd /root/rmbl
-wget https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip >/dev/null 2>&1
-if [ "$ADMIN" = "ON" ]; then
-sed -i "/# RESELLER/a ### ${author} ${hhari} ${MYIP} ${ADMIN} ${TOTALIP}" /root/rmbl/ipmini
-else
-echo "### $author $hhari $MYIP @$LIST" >> ipmini
-fi
-
-sleep 0.5
-rm -rf .git
-git config --global user.email "${EMAILGIT}" >/dev/null 2>&1
-git config --global user.name "${USERGIT}" >/dev/null 2>&1
-git init >/dev/null 2>&1
-git add ipmini 
-git commit -m register >/dev/null 2>&1
-git branch -M main >/dev/null 2>&1
-git remote add origin https://github.com/${USERGIT}/permission >/dev/null 2>&1
-git push -f https://${APIGIT}@github.com/${USERGIT}/permission >/dev/null 2>&1
-sleep 0.5
-rm ipmini
-wget https://raw.githubusercontent.com/RMBL-VPN/license/main/key >/dev/null 2>&1
-if [ "$ADMIN" = "ON" ]; then
-sed -i "/^### $LIST $Key $KEY2 $ADMIN $TOTALIP/d" /root/rmbl/key
-else
-sed -i "/^### $LIST $Key $KEY2/d" /root/rmbl/key
-fi
-sleep 0.5
-rm -rf .git
-git config --global user.email "${EMAILGIT}" >/dev/null 2>&1
-git config --global user.name "${USERGIT}" >/dev/null 2>&1
-git init >/dev/null 2>&1
-git add key
-git commit -m register >/dev/null 2>&1
-git branch -M main >/dev/null 2>&1
-git remote add origin https://github.com/${USERGIT}/license >/dev/null 2>&1
-git push -f https://${APIGIT}@github.com/${USERGIT}/license >/dev/null 2>&1
-rm -rf /root/rmbl
-rm -rf /etc/github
-clear
-else
-echo -e "KODE SALAH SILAHKAN MASUKKAN ULANG KODENYA"
-sleep 1
-key2
-fi
-fi
-}
-function domain(){
-fun_bar() {
-    CMD[0]="$1"
-    CMD[1]="$2"
-    (
-        [[ -e $HOME/fim ]] && rm $HOME/fim
-        ${CMD[0]} -y >/dev/null 2>&1
-        ${CMD[1]} -y >/dev/null 2>&1
-        touch $HOME/fim
-    ) >/dev/null 2>&1 &
-    tput civis
-    echo -ne "  \033[0;33mUpdate Domain.. \033[1;37m- \033[0;33m["
-    while true; do
-        for ((i = 0; i < 18; i++)); do
-            echo -ne "\033[0;32m#"
-            sleep 0.1s
-        done
-        [[ -e $HOME/fim ]] && rm $HOME/fim && break
-        echo -e "\033[0;33m]"
-        sleep 1s
-        tput cuu1
-        tput dl1
-        echo -ne "  \033[0;33mUpdate Domain... \033[1;37m- \033[0;33m["
-    done
-    echo -e "\033[0;33m]\033[1;37m -\033[1;32m Succes !\033[1;37m"
-    tput cnorm
 }
 res1() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/rmbl.sh && chmod +x rmbl.sh && ./rmbl.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/rmbl.sh && chmod +x rmbl.sh && ./rmbl.sh
 clear
 }
-res2() {
-wget https://raw.githubusercontent.com/RMBL-VPN/v1/main/install/r1.sh && chmod +x cr1.sh && ./per1.sh
-clear
-}
-res3() {
-wget https://raw.githubusercontent.com/RMBL-VPN/v1/main/install/c2.sh && chmod +x c2.sh && ./cr2.sh
-clear
-}
-res4() {
-wget https://raw.githubusercontent.com/RMBL-VPN/v1/main/install/r3.sh && chmod +x r3.sh && ./r3.sh
-clear
-}
+
 clear
 cd
 echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
@@ -333,9 +85,9 @@ done
 if [[ $domain == "1" ]]; then
 clear
 echo -e  "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e  "${BIBlue}│         \033[1;37mTERIMA KASIH                ${BIBlue}│${NC}"
-echo -e  "${BIBlue}│         \033[1;37mScript By                   ${BIBlue}│${NC}"
-echo -e  "${BIBlue}│         \033[1;37mRhyuu                       ${BIBlue}│${NC}"
+echo -e  "${BIBlue}│     \033[1;37mTERIMA KASIH             ${BIBlue}│${NC}"
+echo -e  "${BIBlue}│     \033[1;37mMENGGUNAKAN SCRIPT       ${BIBlue}│${NC}"
+echo -e  "${BIBlue}│     \033[1;37mRhyuunet                 ${BIBlue}│${NC}"
 echo -e  "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 echo " "
 until [[ $dnss =~ ^[a-zA-Z0-9_.-]+$ ]]; do 
@@ -368,7 +120,7 @@ echo -e "${BIBlue}╭═══════════════════�
 echo -e "${BIBlue}│ \033[1;37mPlease select a your Choice to Set Domain${BIBlue}│${NC}"
 echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 echo -e "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e "${BIBlue}│  [ 1 ]  \033[1;37mDomain xxx.tepllovpn.eu.org          ${NC}"                                        
+echo -e "${BIBlue}│  [ 1 ]  \033[1;37mDomain xxx.rajavpn.us.kg          ${NC}"                                        
 echo -e "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 until [[ $domain2 =~ ^[1-5]+$ ]]; do 
 read -p "   Please select numbers 1 sampai 1 : " domain2
@@ -377,7 +129,7 @@ fi
 if [[ $domain2 == "1" ]]; then
 clear
 echo -e  "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.tepllovpn.eu.org        ${BIBlue}│${NC}"
+echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.rajavpn.us.kg        ${BIBlue}│${NC}"
 echo -e  "${BIBlue}│    \033[1;37mxxx jadi subdomain kamu               ${BIBlue}│${NC}"
 echo -e  "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 echo " "
@@ -407,7 +159,7 @@ rm /root/subdomainx
 elif [[ $domain2 == "2" ]]; then
 clear
 echo -e  "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.vpnvip.app         ${BIBlue}│${NC}"
+echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.rajavpn.us.kg         ${BIBlue}│${NC}"
 echo -e  "${BIBlue}│    \033[1;37mxxx jadi subdomain kamu               ${BIBlue}│${NC}"
 echo -e  "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 echo " "
@@ -437,7 +189,7 @@ rm /root/subdomainx
 elif [[ $domain2 == "3" ]]; then
 clear
 echo -e  "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.slowapp.cfd        ${BIBlue}│${NC}"
+echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.rajavpn.us.kg        ${BIBlue}│${NC}"
 echo -e  "${BIBlue}│    \033[1;37mxxx jadi subdomain kamu               ${BIBlue}│${NC}"
 echo -e  "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 echo " "
@@ -467,7 +219,7 @@ rm /root/subdomainx
 elif [[ $domain2 == "4" ]]; then
 clear
 echo -e  "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.slowapp.dev        ${BIBlue}│${NC}"
+echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.rajavpn.us.kg        ${BIBlue}│${NC}"
 echo -e  "${BIBlue}│    \033[1;37mxxx jadi subdomain kamu               ${BIBlue}│${NC}"
 echo -e  "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 echo " "
@@ -497,7 +249,7 @@ rm /root/subdomainx
 elif [[ $domain2 == "5" ]]; then
 clear
 echo -e  "${BIBlue}╭══════════════════════════════════════════╮${NC}"
-echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.vipnvip.tech       ${BIBlue}│${NC}"
+echo -e  "${BIBlue}│  \033[1;37mContoh subdomain xxx.rajavpn.us.kg       ${BIBlue}│${NC}"
 echo -e  "${BIBlue}│    \033[1;37mxxx jadi subdomain kamu               ${BIBlue}│${NC}"
 echo -e  "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 echo " "
@@ -547,7 +299,7 @@ echo -e  "${BIBlue}│                \033[1;37mDARI SAYA                 ${BIBl
 echo -e  "${BIBlue}╰══════════════════════════════════════════╯${NC}"
 echo " "
 until [[ $dns2 =~ ^[a-zA-Z0-9_.-]+$ ]]; do
-read -rp "Masukan Domain SlowDNS kamu Disini : " -e dns2
+read -rp "masukkan domain slowdns : " -e dns2
 done
 echo $dns2 >/etc/xray/dns
 fi
@@ -655,46 +407,46 @@ fun_bar() {
 
 
 res2() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/ssh-vpn.sh && chmod +x ssh-vpn.sh && ./ssh-vpn.sh
 clear
 } 
 
 res3() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
 clear
 }
 
 res4() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/sshws/insshws.sh && chmod +x insshws.sh && ./insshws.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/sshws/insshws.sh && chmod +x insshws.sh && ./insshws.sh
 clear
 }
 
 res5() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/set-br.sh && chmod +x set-br.sh && ./set-br.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/set-br.sh && chmod +x set-br.sh && ./set-br.sh
 clear
 }
 
 res6() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/sshws/ohp.sh && chmod +x ohp.sh && ./ohp.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/sshws/ohp.sh && chmod +x ohp.sh && ./ohp.sh
 clear
 }
 
 res7() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/menu/update.sh && chmod +x update.sh && ./update.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/menu/update.sh && chmod +x update.sh && ./update.sh
 clear
 }
 
 res8() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/slowdns/installsl.sh && chmod +x installsl.sh && bash installsl.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/slowdns/installsl.sh && chmod +x installsl.sh && bash installsl.sh
 clear
 }
 
 res9() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/udp-custom.sh && chmod +x udp-custom.sh && bash udp-custom.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/udp-custom.sh && chmod +x udp-custom.sh && bash udp-custom.sh
 clear
 }
 res10() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/noobz/noobzvpns.zip
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/noobz/noobzvpns.zip
 unzip noobzvpns.zip
 chmod +x noobzvpns/*
 cd noobzvpns
@@ -705,12 +457,12 @@ clear
 }
 
 res11() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/bin/limit.sh && chmod +x limit.sh && ./limit.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/bin/limit.sh && chmod +x limit.sh && ./limit.sh
 clear
 }
 
 res12() {
-wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/install/ins-trgo.sh && chmod +x ins-trgo.sh && ./ins-trgo.sh
+wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/install/ins-trgo.sh && chmod +x ins-trgo.sh && ./ins-trgo.sh
 clear
 }
 
@@ -851,7 +603,7 @@ rm /root/insshws.sh >/dev/null 2>&1
 rm /root/set-br.sh >/dev/null 2>&1
 rm /root/ohp.sh >/dev/null 2>&1
 rm /root/update.sh >/dev/null 2>&1
-rm /root/slowdns.sh >/dev/null 2>&1
+rm /root/installsl.sh >/dev/null 2>&1
 rm -rf /etc/noobz
 mkdir -p /etc/noobz
 echo "" > /etc/xray/noob

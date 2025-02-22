@@ -701,7 +701,6 @@ chmod +x noobzvpns/*
 cd noobzvpns
 bash install.sh
 rm -rf noobzvpns
-systemctl restart noobzvpns
 clear
 }
 

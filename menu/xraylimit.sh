@@ -6,7 +6,7 @@ RED="\033[0;31m"
 COLOR1="$(cat /etc/rmbl/theme/$colornow | grep -w "TEXT" | cut -d: -f2|sed 's/ //g')"
 COLBG1="$(cat /etc/rmbl/theme/$colornow | grep -w "BG" | cut -d: -f2|sed 's/ //g')"
 WH='\033[1;37m'
-ipsaya=$(wget -qO- ipinfo.io/ip)
+ipsaya=$(curl -sS ipv4.icanhazip.com)
 data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
 date_list=$(date +"%Y-%m-%d" -d "$data_server")
 data_ip="https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip"
@@ -34,7 +34,7 @@ bash2=$( pgrep bash | wc -l )
 if [[ $bash2 -gt "20" ]]; then
 killall bash
 fi
-inaIP=$(wget -qO- ipv4.icanhazip.com)
+inaIP=$(curl -sS ipv4.icanhazip.com)
 timenow=$(date +%T" WIB")
 TIMES="10"
 CHATID=$(cat /etc/perlogin/id)

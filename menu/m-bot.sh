@@ -1,5 +1,5 @@
 #!/bin/bash
-ipsaya=$(curl -sS ipinfo.io/ip)
+ipsaya=$(curl -sS ipv4.icanhazip.com)
 data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
 date_list=$(date +"%Y-%m-%d" -d "$data_server")
 data_ip="https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip"
@@ -129,13 +129,13 @@ systemctl enable kyt &> /dev/null
 systemctl start kyt &> /dev/null
 systemctl restart kyt &> /dev/null
 
-wget -q -O /usr/bin/addtrgo "https://raw.githubusercontent.com/Rhyuu11/newsc/main/trgo/addtrgo.sh" && chmod +x /usr/bin/addtrgo
+wget -q -O /usr/bin/addtrgo "https://raw.githubusercontent.com/Rhyuu11/sc25/main/trgo/addtrgo.sh" && chmod +x /usr/bin/addtrgo
 
-wget -q -O /usr/bin/deltrgo "https://raw.githubusercontent.com/Rhyuu11/newsc/main/trgo/deltrgo.sh" && chmod +x /usr/bin/deltrgo
+wget -q -O /usr/bin/deltrgo "https://raw.githubusercontent.com/Rhyuu11/sc25/main/trgo/deltrgo.sh" && chmod +x /usr/bin/deltrgo
 
-wget -q -O /usr/bin/cektrgo "https://raw.githubusercontent.com/Rhyuu11/newsc/main/trgo/cektrgo.sh" && chmod +x /usr/bin/cektrgo
+wget -q -O /usr/bin/cektrgo "https://raw.githubusercontent.com/Rhyuu11/sc25/main/trgo/cektrgo.sh" && chmod +x /usr/bin/cektrgo
 
-wget -q -O /usr/bin/renewtrgo "https://raw.githubusercontent.com/Rhyuu11/newsc/main/trgo/renewtrgo.sh" && chmod +x /usr/bin/renewtrgo
+wget -q -O /usr/bin/renewtrgo "https://raw.githubusercontent.com/Rhyuu11/sc25/main/trgo/renewtrgo.sh" && chmod +x /usr/bin/renewtrgo
 
 echo "Done"
 echo " Installations complete, type /menu on your bot"

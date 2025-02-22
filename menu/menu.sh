@@ -1,6 +1,6 @@
 #!/bin/bash
 biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
-MYIP=$(wget -qO- ifconfig.me)
+MYIP=$(curl -sS ipv4.icanhazip.com)
 colornow=$(cat /etc/rmbl/theme/color.conf)
 export NC="\e[0m"
 export yl='\033[0;33m';
@@ -16,13 +16,13 @@ author=$(cat /etc/profil)
 DAY=$(date +%A)
 DATE=$(date +%m/%d/%Y)
 DATE2=$(date -R | cut -d " " -f -5)
-MYIP=$(wget -qO- ifconfig.me)
+MYIP=$(curl -sS ipv4.icanhazip.com)
 Isadmin=$(curl -sS https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip | grep $MYIP | awk '{print $5}')
 Exp2=$(curl -sS https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip | grep $MYIP | awk '{print $3}')
 export RED='\033[0;31m'
 export GREEN='\033[0;32m'
 Name=$(curl -sS https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip | grep $MYIP | awk '{print $2}')
-ipsaya=$(wget -qO- ifconfig.me)
+ipsaya=$(curl -sS ipv4.icanhazip.com)
 data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
 date_list=$(date +"%Y-%m-%d" -d "$data_server")
 data_ip="https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip"

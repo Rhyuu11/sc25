@@ -14,7 +14,7 @@ uptime="$(uptime -p | cut -d " " -f 2-10)"
 ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10)
 CITY=$(curl -s ipinfo.io/city)
 WKT=$(curl -s ipinfo.io/timezone)
-IPVPS=$(curl -s ipinfo.io/ip)
+IPVPS=$(curl -sS ipv4.icanhazip.com)
 cname=$(awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo)
 cores=$(awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo)
 freq=$(awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo)

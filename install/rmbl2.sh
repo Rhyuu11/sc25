@@ -1,17 +1,17 @@
 #!/bin/bash
 
-MYIP=$(wget -qO- icanhazip.com);
+MYIP=$(curl -sS ipv4.icanhazip.com);
 apt install jq curl -y
 
-DOMAIN=yogzvpn.cloud
+DOMAIN=rhyuunet.biz.id
 sub=$(</dev/urandom tr -dc a-z0-9 | head -c5)
 #subsl=$(</dev/urandom tr -dc a-z0-9 | head -c5)
-dns=${sub}.yogzvpn.cloud
-#NS_dns=slowdns-${subsl}.asw.my.id
-CF_ID=ysshvpn@gmail.com
-CF_KEY=0d626234700bad388d6d07b49c42901445d1c
+dns=${sub}.rhyuunet.biz.id
+#NS_dns=slowdns-${subsl}.rhyuunet.biz.id
+CF_ID=dm.napoli10@gmail.com
+CF_KEY=213f142bc6f2e4a8f9060566a97a7bce2518d
 set -euo pipefail
-IP=$(wget -qO- icanhazip.com);
+IP=$(curl -sS ipv4.icanhazip.com);
 echo "Updating DNS for ${dns}..."
 ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN}&status=active" \
      -H "X-Auth-Email: ${CF_ID}" \

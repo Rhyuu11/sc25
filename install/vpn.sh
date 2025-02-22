@@ -1,7 +1,7 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 OS=`uname -m`;
-MYIP=$(wget -qO- ipinfo.io/ip);
+MYIP=$(curl -sS ipv4.icanhazip.com);
 domain=$(cat /root/domain)
 #MYIP2="s/xxxxxxxxx/$MYIP/g";
 MYIP2="s/xxxxxxxxx/$domain/g";

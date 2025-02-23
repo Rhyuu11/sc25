@@ -570,7 +570,7 @@ menu
 function updatews(){
 cd
 rm -rf *
-wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/menu/install-up.sh &> /dev/null
+wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/menu/install-up.sh &> /dev/null
 chmod +x install_up.sh
 ./install_up.sh
 }

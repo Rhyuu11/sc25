@@ -1,13 +1,13 @@
 #!/bin/bash
 apt install jq curl -y
-DOMAIN=xnxxms.cloud
+DOMAIN=rhyuunet.biz.id
 sub=$(cat /root/subdomainx)
-dns=${sub}.xnxxms.cloud
-dns2=*.${sub}.xnxxms.cloud
-CF_ID=kadeknovi148@gmail.com
-CF_KEY=45c11fd84f3ee1ce33070b0b653044e33b051
+dns=${sub}.rhyuunet.biz.id
+dns2=*.${sub}.rhyuunet.biz.id
+CF_ID=dm.napoli10@gmail.com
+CF_KEY=213f142bc6f2e4a8f9060566a97a7bce2518d
 set -euo pipefail
-IP=$(wget -qO- icanhazip.com);
+IP=$(curl -sS ipv4.icanhazip.com);
 echo "Updating DNS for ${dns}..."
 ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN}&status=active" \
 -H "X-Auth-Email: ${CF_ID}" \
@@ -41,16 +41,16 @@ RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_r
 --data '{"type":"A","name":"'${dns2}'","content":"'${IP}'","ttl":120,"proxied":false}')
 echo $dns > /root/domain
 echo "$dns" > /etc/xray/domain
-echo "$dn!������MYIP=$(wget -qO- icanhazip.com);
+echo "$dn!MYIP=$(curl -sS ipv4.icanhazip.com);
 apt install jq curl -y
-DOMAIN=xnxxms.cloud
+DOMAIN=rhyuunet.biz.id
 sub=$(cat /root/subdomainx)
-dns=${sub}.xnxxms.cloud
-dns2=*.${sub}.xnxxms.cloud
-CF_ID=kadeknovi148@gmail.com
-CF_KEY=45c11fd84f3ee1ce33070b0b653044e33b051
+dns=${sub}.rhyuunet.biz.id
+dns2=*.${sub}.rhyuunet.biz.id
+CF_ID=dm.napoli10@gmail.com
+CF_KEY=213f142bc6f2e4a8f9060566a97a7bce2518d
 set -euo pipefail
-IP=$(wget -qO- icanhazip.com);
+IP=$(curl -sS ipv4.icanhazip.com);
 echo "Updating DNS for ${dns}..."
 ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN}&status=active" \
 -H "X-Auth-Email: ${CF_ID}" \

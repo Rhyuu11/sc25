@@ -201,7 +201,7 @@ sed -i $MYIP2 /etc/squid/squid.conf
 apt -y install vnstat
 /etc/init.d/vnstat restart
 apt -y install libsqlite3-dev
-wget https://raw.githubusercontent.com/Rhyuu11/newsc/main/vnstat-2.6.tar.gz
+wget https://raw.githubusercontent.com/Rhyuu11/sc25/main/vnstat-2.6.tar.gz
 tar zxvf vnstat-2.6.tar.gz
 cd vnstat-2.6
 ./configure --prefix=/usr --sysconfdir=/etc && make && make install

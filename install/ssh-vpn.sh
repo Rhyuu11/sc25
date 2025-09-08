@@ -88,8 +88,9 @@ apt -y install figlet
 # set time GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 
+# set locale
+sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 
-# install
 # // install
 apt-get --reinstall --fix-missing install -y bzip2 gzip coreutils wget screen rsyslog iftop htop net-tools zip unzip wget net-tools curl nano sed screen gnupg gnupg1 bc apt-transport-https build-essential dirmngr libxml-parser-perl neofetch git lsof
 echo "clear" >> .profile
@@ -214,37 +215,31 @@ systemctl enable vnstat
 rm -f /root/vnstat-2.6.tar.gz
 rm -rf /root/vnstat-2.6
 
+cd
 # install stunnel
 apt install stunnel4 -y
-#certi stunnel
-#wget -O /etc/stunnel/hidessh.pem https://gitlab.com/hidessh/baru/-/raw/main/certi/stunel && chmod +x /etc/stunnel/hidessh.pem
-#installer SSL Cloudflare 
-cd
-
-wget https://raw.githubusercontent.com/hidessh99/projectku/main/SSL/hidesvr.crt
-wget https://raw.githubusercontent.com/hidessh99/projectku/main/SSL/hidesvr.key
-#buat directory
-mkdir /etc/hidessh
-chmod +x /etc/hidessh
-
-cat hidesvr.key hidesvr.crt >> /etc/hidessh/stunnel.pem
-
-#konfigurasi stunnel4
 cat > /etc/stunnel/stunnel.conf <<-END
-cert = /etc/hidessh/stunnel.pem
+cert = /etc/stunnel/stunnel.pem
 client = no
 socket = a:SO_REUSEADDR=1
 socket = l:TCP_NODELAY=1
 socket = r:TCP_NODELAY=1
 
 [dropbear]
-accept = 777
+accept = 8880
 connect = 127.0.0.1:22
 
 [dropbear]
-accept = 447
+accept = 8443
 connect = 127.0.0.1:109
 
+[ws-stunnel]
+accept = 444
+connect = 700
+
+[openvpn]
+accept = 990
+connect = 127.0.0.1:1194
 
 END
 

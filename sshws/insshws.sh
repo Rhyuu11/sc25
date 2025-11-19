@@ -2,7 +2,7 @@
 # Proxy For Edukasi & Imclass
 
 # Link Hosting Kalian
-Rhyuu="https://raw.githubusercontent.com/Rhyuu11/sc25/main/install"
+Rhyuu="https://raw.githubusercontent.com/Rhyuu11/sc25/main/sshws"
 
 wget -O /usr/local/bin/ws-dropbear https://raw.githubusercontent.com/Rhyuu11/sc25/main/sshws/ws-dropbear
 chmod +x /usr/local/bin/ws-dropbear

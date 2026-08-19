@@ -179,16 +179,97 @@ sed -i '/Port 22/a Port 200' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 22' /etc/ssh/sshd_config
 /etc/init.d/ssh restart
 
-echo "=== Install Dropbear ==="
-# install dropbear
+#!/bin/bash
+
+echo "=== Install & Configure Dropbear ==="
+
+# Pastikan dijalankan sebagai root
+if [ "$EUID" -ne 0 ]; then
+    echo "ERROR: Jalankan script sebagai root."
+    exit 1
+fi
+
+# Update & install
+apt update
 apt -y install dropbear
-sed -i 's/NO_START=1/NO_START=0/g' /etc/default/dropbear
-sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=143/g' /etc/default/dropbear
-sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 50000 -p 109 -p 110 -p 69"/g' /etc/default/dropbear
-echo "/bin/false" >> /etc/shells
-echo "/usr/sbin/nologin" >> /etc/shells
-/etc/init.d/ssh restart
-/etc/init.d/dropbear restart
+
+# Backup konfigurasi
+cp /etc/default/dropbear \
+   "/etc/default/dropbear.bak.$(date +%Y%m%d-%H%M%S)"
+
+# Port yang diinginkan
+MAIN_PORT=143
+EXTRA_PORTS=(50000 109 110 69)
+
+echo
+echo "=== Mengecek port ==="
+
+AVAILABLE_EXTRA=""
+
+# Cek port utama
+if ss -lntup | grep -qE ":${MAIN_PORT}\b"; then
+    echo "[WARNING] Port $MAIN_PORT sedang digunakan."
+else
+    echo "[OK] Port $MAIN_PORT tersedia."
+fi
+
+# Cek port tambahan
+for PORT in "${EXTRA_PORTS[@]}"; do
+    if ss -lntup | grep -qE ":${PORT}\b"; then
+        echo "[WARNING] Port $PORT sedang digunakan - dilewati."
+    else
+        echo "[OK] Port $PORT tersedia."
+        AVAILABLE_EXTRA="$AVAILABLE_EXTRA -p $PORT"
+    fi
+done
+
+echo
+echo "=== Menulis konfigurasi Dropbear ==="
+
+# NO_START
+if grep -q '^NO_START=' /etc/default/dropbear; then
+    sed -i 's/^NO_START=.*/NO_START=0/' /etc/default/dropbear
+else
+    echo 'NO_START=0' >> /etc/default/dropbear
+fi
+
+# DROPBEAR_PORT
+if grep -q '^DROPBEAR_PORT=' /etc/default/dropbear; then
+    sed -i "s/^DROPBEAR_PORT=.*/DROPBEAR_PORT=$MAIN_PORT/" /etc/default/dropbear
+else
+    echo "DROPBEAR_PORT=$MAIN_PORT" >> /etc/default/dropbear
+fi
+
+# DROPBEAR_EXTRA_ARGS
+if grep -q '^DROPBEAR_EXTRA_ARGS=' /etc/default/dropbear; then
+    sed -i "s|^DROPBEAR_EXTRA_ARGS=.*|DROPBEAR_EXTRA_ARGS=\"$AVAILABLE_EXTRA\"|" /etc/default/dropbear
+else
+    echo "DROPBEAR_EXTRA_ARGS=\"$AVAILABLE_EXTRA\"" >> /etc/default/dropbear
+fi
+
+echo
+echo "=== Konfigurasi akhir ==="
+grep -E '^NO_START=|^DROPBEAR_PORT=|^DROPBEAR_EXTRA_ARGS=' \
+    /etc/default/dropbear
+
+echo
+echo "=== Restart Dropbear ==="
+
+systemctl enable dropbear
+systemctl restart dropbear
+
+sleep 2
+
+echo
+echo "=== Status Dropbear ==="
+systemctl --no-pager --full status dropbear
+
+echo
+echo "=== Port yang aktif ==="
+ss -lntp | grep -E ':(143|50000|109|110|69)\b' || true
+
+echo
+echo "=== Selesai ==="
 
 # // install squid for debian 9,10 & ubuntu 20.04
 apt -y install squid3

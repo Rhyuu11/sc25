@@ -6,27 +6,61 @@ RED="\033[0;31m"
 COLOR1="$(cat /etc/rmbl/theme/$colornow | grep -w "TEXT" | cut -d: -f2|sed 's/ //g')"
 COLBG1="$(cat /etc/rmbl/theme/$colornow | grep -w "BG" | cut -d: -f2|sed 's/ //g')"
 WH='\033[1;37m'
-ipsaya=$(wget -qO- ifconfig.me)
-data_server=$(curl -v --insecure --silent https://google.com/ 2>&1 | grep Date | sed -e 's/< Date: //')
-date_list=$(date +"%Y-%m-%d" -d "$data_server")
+# Network/license-check values
+# Do not stop nginx when a public-IP or license-server request temporarily fails.
+ipsaya=$(curl -4 -fsS --max-time 10 https://ipv4.icanhazip.com 2>/dev/null | tr -d '[:space:]')
 data_ip="https://raw.githubusercontent.com/Rhyuu11/izinsc/main/ip"
+
 checking_sc() {
-useexp=$(curl -sS $data_ip | grep $ipsaya | awk '{print $3}')
-if [[ $date_list < $useexp ]]; then
-echo -ne
-else
-systemctl stop nginx
-echo -e "$COLOR1┌─────────────────────────────────────────────────┐${NC}"
-echo -e "$COLOR1│${NC}${COLBG1}          ${WH}• AUTOSCRIPT PREMIUM •                 ${NC}$COLOR1│ $NC"
-echo -e "$COLOR1└─────────────────────────────────────────────────┘${NC}"
-echo -e "$COLOR1┌─────────────────────────────────────────────────┐${NC}"
-echo -e "$COLOR1│            ${RED}PERMISSION DENIED !${NC}                  $COLOR1│"
-echo -e "$COLOR1│   ${yl}Your VPS${NC} $ipsaya \033[0;36mHas been Banned${NC}      $COLOR1│"
-echo -e "$COLOR1│     ${yl}Buy access permissions for scripts${NC}          $COLOR1│"
-echo -e "$COLOR1│             \033[0;32mContact Your Admin ${NC}                 $COLOR1│"
-echo -e "$COLOR1└─────────────────────────────────────────────────┘${NC}"
-exit
-fi
+    # Validate public IPv4 response before using it in grep.
+    if [[ ! "$ipsaya" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+        echo -e "${COLOR1}[ WARNING ] ${WH}Gagal mendapatkan IPv4 publik."
+        echo -e "${COLOR1}[ WARNING ] ${WH}Nginx tidak dihentikan. Coba lagi nanti."
+        return 1
+    fi
+
+    # Use the local system date instead of parsing Google's Date header.
+    date_list=$(date +"%Y-%m-%d")
+    if [[ ! "$date_list" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+        echo -e "${COLOR1}[ WARNING ] ${WH}Tanggal sistem tidak valid."
+        echo -e "${COLOR1}[ WARNING ] ${WH}Nginx tidak dihentikan."
+        return 1
+    fi
+
+    # Fetch the authorization list safely. A network failure must not
+    # be treated as a banned/expired VPS.
+    license_data=$(curl -4 -fsS --max-time 15 "$data_ip" 2>/dev/null)
+    if [[ $? -ne 0 || -z "$license_data" ]]; then
+        echo -e "${COLOR1}[ WARNING ] ${WH}Server izin tidak dapat dihubungi."
+        echo -e "${COLOR1}[ WARNING ] ${WH}Nginx tidak dihentikan. Coba lagi nanti."
+        return 1
+    fi
+
+    useexp=$(printf '%s\n' "$license_data" | awk -v ip="$ipsaya" '$0 ~ ip {print $3; exit}')
+
+    # Missing/invalid expiry is a failed lookup, not proof of a ban.
+    if [[ -z "$useexp" || ! "$useexp" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+        echo -e "${COLOR1}[ WARNING ] ${WH}IP VPS tidak ditemukan pada server izin."
+        echo -e "${COLOR1}[ WARNING ] ${WH}Nginx tidak dihentikan."
+        return 1
+    fi
+
+    if [[ "$date_list" < "$useexp" || "$date_list" == "$useexp" ]]; then
+        return 0
+    fi
+
+    # Only a confirmed expired authorization reaches this branch.
+    systemctl stop nginx
+    echo -e "$COLOR1┌─────────────────────────────────────────────────┐${NC}"
+    echo -e "$COLOR1│${NC}${COLBG1}          ${WH}• AUTOSCRIPT PREMIUM •                 ${NC}$COLOR1│ $NC"
+    echo -e "$COLOR1└─────────────────────────────────────────────────┘${NC}"
+    echo -e "$COLOR1┌─────────────────────────────────────────────────┐${NC}"
+    echo -e "$COLOR1│            ${RED}PERMISSION DENIED !${NC}                  $COLOR1│"
+    echo -e "$COLOR1│   ${yl}Your VPS${NC} $ipsaya \033[0;36mHas been Banned${NC}      $COLOR1│"
+    echo -e "$COLOR1│     ${yl}Buy access permissions for scripts${NC}          $COLOR1│"
+    echo -e "$COLOR1│             \033[0;32mContact Your Admin ${NC}                 $COLOR1│"
+    echo -e "$COLOR1└─────────────────────────────────────────────────┘${NC}"
+    exit
 }
 checking_sc
 IP=$(curl -sS ipv4.icanhazip.com);

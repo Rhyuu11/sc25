@@ -99,7 +99,7 @@ fi
 sleep 1
 clear
 expi=`date -d "$masaaktif days" +"%Y-%m-%d"`
-useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login
+useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/bash -M $Login
 exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
 echo -e "$Pass\n$Pass\n"|passwd $Login &> /dev/null
 echo -e "### $Login $expi $Pass" >> /etc/xray/ssh
@@ -342,7 +342,7 @@ cloudfront="Kosong"
 fi
 echo "$iplim" > /etc/xray/sshx/${Login}IP
 expi=`date -d "$hari days" +"%Y-%m-%d"`
-useradd -e `date -d "$hari days" +"%Y-%m-%d"` -s /bin/false -M $Login
+useradd -e `date -d "$hari days" +"%Y-%m-%d"` -s /bin/bash -M $Login
 exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
 echo -e "$Pass\n$Pass\n"|passwd $Login &> /dev/null
 echo -e "### $Login $expi $Pass" >> /etc/xray/ssh

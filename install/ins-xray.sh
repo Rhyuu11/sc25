@@ -53,22 +53,42 @@ apt install zip -y
 apt install curl pwgen openssl netcat cron -y
 
 
-# install xray
+# ==============================
+# INSTALL XRAY CORE
+# ==============================
+
 sleep 0.5
-echo -e "[ ${green}INFO$NC ] Downloading & Installing xray core"
-domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
-chown www-data.www-data $domainSock_dir
-# Make Folder XRay
-mkdir -p /var/log/xray
+echo -e "[ ${green}INFO$NC ] Downloading & Installing Xray Core"
+
+# Runtime directory
+mkdir -p /run/xray
+chown www-data:www-data /run/xray
+chmod 755 /run/xray
+
+# Xray configuration directory
 mkdir -p /etc/xray
-chown www-data.www-data /var/log/xray
-chmod +x /var/log/xray
+chmod 755 /etc/xray
+
+# Xray log directory
+mkdir -p /var/log/xray
 touch /var/log/xray/access.log
 touch /var/log/xray/error.log
 touch /var/log/xray/access2.log
 touch /var/log/xray/error2.log
-# / / Ambil Xray Core Version Terbaru
-bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version 1.6.1
+
+chown -R www-data:www-data /var/log/xray
+chmod 755 /var/log/xray
+chmod 644 /var/log/xray/*.log
+
+# Install Xray Core
+bash -c "$(curl -fsSL https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data
+
+# Enable Xray at boot
+systemctl daemon-reload
+systemctl enable xray
+
+# Check installation
+systemctl status xray --no-pager -l
 
 ## crt xray
 systemctl stop nginx
